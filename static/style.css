@@ -1,0 +1,103 @@
+/* General Body and Container Styles */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f0f4f8;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Title Styling */
+h1 {
+    font-size: 2.2em;
+    color: #222;
+    margin-bottom: 30px;
+}
+
+/* Input and Button Areas */
+.input-area {
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    width: 90%;
+}
+
+/* Button Area */
+.button-area {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+button {
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    background: #007BFF;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+/* Hover Effect for Park Car and Parked Car Buttons */
+button:hover {
+    background: #0056b3;
+    transform: scale(1.1);  /* Makes the button grow slightly */
+}
+
+/* Message */
+#message {
+    margin-top: 10px;
+    color: #444;
+    font-weight: 500;
+}
+
+/* Parked Cars List Styling */
+#parkedListContainer {
+    margin-top: 30px;
+    text-align: left;
+}
+
+#parkedListContainer h2 {
+    margin-bottom: 10px;
+    color: #155724;
+}
+
+#parkedList {
+    list-style: none;
+    padding-left: 0;
+}
+
+#parkedList li {
+    padding: 8px 12px;
+    margin: 6px 0;
+    background: #d4edda; /* Light green background for list item */
+    border-left: 5px solid #28a745;
+    border-radius: 6px;
+    font-size: 16px;
+    color: #155724;
+}
+
+/* Hover Effect for Parked Car Numbers */
+#parkedList li:hover {
+    background: #28a745; /* Darker green on hover */
+    color: white;
+    transform: scale(1.05);  /* Slightly enlarges the list item */
+}
