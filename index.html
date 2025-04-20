@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Parking System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Smart Parking System</h1>
+
+        <!-- Car Input Area -->
+        <div class="input-area">
+            <input type="text" id="carPlate" placeholder="Enter Car Plate Number" />
+        </div>
+
+        <!-- Message Display -->
+        <div id="message"></div>
+
+        <!-- Buttons (Park, Remove, etc.) -->
+        <div class="button-area">
+            <button id="parkBtn">Park Car</button>
+            <button id="removeBtn">Remove Car</button>
+        </div>
+
+        <!-- Display Parked Cars -->
+        <div id="parkedListContainer">
+            <h2>Currently Parked Cars:</h2>
+            <ul id="parkedList"></ul>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            // Function to park a car
+            function parkCar(carPlate) {
+                $.ajax({
+                    url: '/park',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ car_plate: carPlate }),
+                    success: function (response) {
+                        $('#message').text(response.message).css('color', 'green');
+                        fetchParkedCars();
+                    },
+                    error: function (response) {
+                        $('#message').text(response.responseJSON.message).css('color', 'red');
+                    }
+                });
+            }
+
+            // Fetch and display parked cars
+            function fetchParkedCars() {
+                $.get('/status', function (data) {
+                    const parkedList = data.parked;
+                    $('#parkedList').empty();
+                    parkedList.forEach(car => {
+                        $('#parkedList').append('<li>' + car + '</li>');
+                    });
+                });
+            }
+
+            // Handle Enter key press for parking the car
+            $('#carPlate').keypress(function (e) {
+                if (e.which === 13) { // Enter key code
+                    const carPlate = $('#carPlate').val().trim();
+                    if (carPlate) {
+                        parkCar(carPlate);
+                        $('#carPlate').val(''); // Clear the input field
+                    } else {
+                        $('#message').text('Please enter a valid car plate number.').css('color', 'red');
+                    }
+                }
+            });
+
+            // Handle Park Car button click
+            $('#parkBtn').click(function () {
+                const carPlate = $('#carPlate').val().trim();
+                if (carPlate) {
+                    parkCar(carPlate);
+                    $('#carPlate').val(''); // Clear the input field
+                } else {
+                    $('#message').text('Please enter a valid car plate number.').css('color', 'red');
+                }
+            });
+
+            // Handle Remove Car button click
+            $('#removeBtn').click(function () {
+                $.ajax({
+                    url: '/remove',
+                    type: 'POST',
+                    success: function (response) {
+                        $('#message').text(response.message).css('color', 'green');
+                        fetchParkedCars();
+                    },
+                    error: function (response) {
+                        $('#message').text(response.responseJSON.message).css('color', 'red');
+                    }
+                });
+            });
+
+            // Fetch parked cars initially
+            fetchParkedCars();
+        });
+    </script>
+</body>
+</html>
